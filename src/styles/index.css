@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Design tokens
+   Colours are stored as raw "R G B" triplets so Tailwind can apply opacity
+   modifiers to them (e.g. bg-accent/10).
+   ========================================================================== */
+@layer base {
+  :root {
+    --color-bg: 249 250 251; /* page background          */
+    --color-surface: 255 255 255; /* cards / panels      */
+    --color-elevated: 255 255 255; /* modals / popovers  */
+    --color-line: 229 231 235; /* borders                */
+    --color-ink: 17 24 39; /* primary text               */
+    --color-muted: 107 114 128; /* secondary text        */
+    --color-accent: 99 102 241; /* brand accent (indigo) */
+    --color-accent-ink: 255 255 255; /* text on accent   */
+  }
+
+  .dark {
+    --color-bg: 9 9 11;
+    --color-surface: 24 24 27;
+    --color-elevated: 32 32 36;
+    --color-line: 39 39 42;
+    --color-ink: 244 244 245;
+    --color-muted: 161 161 170;
+    --color-accent-ink: 255 255 255;
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    /* Prevent layout shift when a modal locks scrolling */
+    scrollbar-gutter: stable;
+  }
+
+  /* Subtle, premium scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-line;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted/50;
+  }
+
+  /* Consistent focus ring across the whole app */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/60 ring-offset-2 ring-offset-bg;
+  }
+}
+
+@layer components {
+  /* Frosted-glass panel used by the navbar, command palette and modals */
+  .glass {
+    @apply border border-line/80 bg-surface/70 backdrop-blur-xl backdrop-saturate-150;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-soft;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink
+           placeholder:text-muted/70 transition focus:border-accent focus:ring-0;
+  }
+
+  .label {
+    @apply mb-1.5 block text-[13px] font-medium text-ink;
+  }
+
+  .hint {
+    @apply mt-1 text-xs text-muted;
+  }
+
+  /* Thin gradient wash used behind hero sections */
+  .hero-wash {
+    background-image: radial-gradient(
+        60rem 30rem at 15% -10%,
+        rgb(var(--color-accent) / 0.16),
+        transparent 60%
+      ),
+      radial-gradient(40rem 24rem at 95% 0%, rgb(var(--color-accent) / 0.1), transparent 60%);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Clamp helpers (avoids pulling in the line-clamp plugin) */
+  .clamp-1,
+  .clamp-2,
+  .clamp-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .clamp-1 {
+    -webkit-line-clamp: 1;
+  }
+  .clamp-2 {
+    -webkit-line-clamp: 2;
+  }
+  .clamp-3 {
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
