@@ -6,7 +6,7 @@
   "description": "Express + MongoDB API for ProjectVault.",
   "main": "index.js",
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "node --watch index.js",
