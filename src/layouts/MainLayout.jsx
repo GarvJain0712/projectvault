@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
@@ -28,6 +28,13 @@ export default function MainLayout() {
   const closePalette = useCallback(() => setPaletteOpen(false), []);
 
   useHotkey('mod+k', openPalette);
+
+  // Belt and braces: whatever caused the navigation, the drawer must not
+  // survive a route change. Without this a stray overlay can block the page.
+  useEffect(() => {
+    setMenuOpen(false);
+    setPaletteOpen(false);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-bg">

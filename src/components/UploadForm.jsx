@@ -429,7 +429,7 @@ export default function UploadForm({ initialProject = null }) {
 
       {/* Sticky action bar */}
       <div className="sticky bottom-4 z-10">
-        <div className="glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-lift">
+        <div className="glass flex flex-wrap items-center gap-2 rounded-2xl px-3 py-3 shadow-lift sm:gap-3 sm:px-4">
           <AnimatePresence mode="wait">
             {status === 'uploading' ? (
               <motion.div
@@ -437,7 +437,7 @@ export default function UploadForm({ initialProject = null }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex-1"
+                className="w-full sm:flex-1"
               >
                 <ProgressBar value={progress} showLabel label="Uploading…" />
               </motion.div>
@@ -455,14 +455,20 @@ export default function UploadForm({ initialProject = null }) {
                 key="idle"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex-1 text-[13px] text-muted"
+                className="hidden flex-1 text-[13px] text-muted sm:block"
               >
                 {isEditing ? 'Editing an existing project' : 'Everything is stored in your browser'}
               </motion.p>
             )}
           </AnimatePresence>
 
-          <Button variant="secondary" size="sm" onClick={() => navigate(-1)} type="button">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => navigate(-1)}
+            type="button"
+            className="ml-auto sm:ml-0"
+          >
             Cancel
           </Button>
           <Button

@@ -186,7 +186,7 @@ export default function ProjectDetails() {
             {project.pinned ? <Badge tone="accent">Pinned</Badge> : null}
           </div>
 
-          <h1 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          <h1 className="break-words text-xl font-semibold tracking-tight text-ink sm:text-3xl">
             {project.title}
           </h1>
 
@@ -265,7 +265,7 @@ export default function ProjectDetails() {
         </Button>
 
         {canWrite ? (
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:ml-auto">
             <Button
               size="sm"
               variant="secondary"

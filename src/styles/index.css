@@ -41,6 +41,16 @@
     @apply bg-bg text-ink font-sans antialiased;
     /* Prevent layout shift when a modal locks scrolling */
     scrollbar-gutter: stable;
+    /* A long unbroken string (a URL, a pasted tag) must never widen the page */
+    overflow-wrap: break-word;
+  }
+
+  /* Media never overflows its container on small screens */
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
   }
 
   /* Subtle, premium scrollbars */

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -7,16 +7,15 @@ import {
   FiEye,
   FiFolder,
   FiGithub,
-  FiHeart,
   FiLayers,
   FiPlay,
   FiPlus,
   FiUploadCloud,
   FiVideo,
 } from 'react-icons/fi';
-import { CATEGORIES } from '@/data/constants';
 import { PROFILE } from '@/data/profile';
 import { useProjects } from '@/context/ProjectContext';
+import { useAuth } from '@/context/AuthContext';
 import {
   formatCount,
   formatRelativeTime,
@@ -24,14 +23,11 @@ import {
   gradientFromString,
   initialsOf,
 } from '@/utils/helpers';
-import ActivityTimeline from '@/components/ActivityTimeline';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import CategoryChart from '@/components/CategoryChart';
-import CategoryChips from '@/components/CategoryChips';
 import EmptyState from '@/components/ui/EmptyState';
 import PageTransition from '@/components/ui/PageTransition';
-import SearchBar from '@/components/SearchBar';
 import StatisticsCard from '@/components/StatisticsCard';
 import VideoCard from '@/components/VideoCard';
 import { ProjectGridSkeleton, StatsSkeleton } from '@/components/ui/Loader';
@@ -82,14 +78,14 @@ function FeaturedProject({ project }) {
           </span>
         </Link>
 
-        <div className="flex flex-col justify-center gap-4 p-6 sm:p-8">
+        <div className="flex flex-col justify-center gap-4 p-5 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="accent">Featured</Badge>
             <Badge>{project.category}</Badge>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold tracking-tight text-ink sm:text-2xl">
+            <h2 className="text-lg font-semibold tracking-tight text-ink sm:text-2xl">
               {project.title}
             </h2>
             <p className="clamp-3 mt-2 text-sm leading-relaxed text-muted">
@@ -103,17 +99,17 @@ function FeaturedProject({ project }) {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
             <Button to={`/project/${project.id}`} icon={FiPlay} size="sm">
-              Watch explanation
+              Watch
             </Button>
             {project.githubUrl ? (
               <Button href={project.githubUrl} variant="secondary" size="sm" icon={FiGithub}>
                 Source
               </Button>
             ) : null}
-            <span className="ml-auto flex items-center gap-1 text-xs text-muted">
-              <FiEye aria-hidden /> {formatCount(project.views)} views
+            <span className="ml-auto flex shrink-0 items-center gap-1 text-xs text-muted">
+              <FiEye aria-hidden /> {formatCount(project.views)}
             </span>
           </div>
         </div>
@@ -123,9 +119,8 @@ function FeaturedProject({ project }) {
 }
 
 export default function Dashboard() {
-  const { projects, activity, loading, stats } = useProjects();
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState('All');
+  const { projects, loading, stats } = useProjects();
+  const { canWrite } = useAuth();
 
   /** Featured = the first pinned project, otherwise the most watched. */
   const featured = useMemo(() => {
@@ -141,70 +136,48 @@ export default function Dashboard() {
     [projects]
   );
 
-  const categoryCounts = useMemo(() => {
-    const counts = {};
-    projects.forEach((project) => {
-      counts[project.category] = (counts[project.category] || 0) + 1;
-    });
-    return counts;
-  }, [projects]);
-
-  /** Quick client-side filter for the dashboard preview grid. */
-  const preview = useMemo(() => {
-    const term = query.trim().toLowerCase();
-    return projects
-      .filter((project) => (category === 'All' ? true : project.category === category))
-      .filter((project) =>
-        term
-          ? `${project.title} ${project.shortDescription} ${(project.technologies || []).join(' ')}`
-              .toLowerCase()
-              .includes(term)
-          : true
-      )
-      .sort((a, b) => Number(b.pinned) - Number(a.pinned) || new Date(b.date) - new Date(a.date))
-      .slice(0, 6);
-  }, [projects, query, category]);
-
   const statCards = [
     { icon: FiFolder, label: 'Projects', value: stats.totalProjects, accent: 'accent' },
     { icon: FiVideo, label: 'Videos', value: stats.totalVideos, accent: 'violet' },
     { icon: FiLayers, label: 'Categories', value: stats.totalCategories, accent: 'blue' },
-    { icon: FiHeart, label: 'Favorites', value: stats.totalFavorites, accent: 'rose' },
     {
       icon: FiClock,
-      label: 'Total watch time',
+      label: 'Watch time',
       value: formatWatchTime(stats.totalWatchSeconds),
       accent: 'amber',
     },
-    { icon: FiEye, label: 'Total views', value: formatCount(stats.totalViews), accent: 'emerald' },
   ];
 
   return (
-    <PageTransition className="space-y-6">
+    <PageTransition className="space-y-5">
       {/* Hero */}
-      <section className="hero-wash relative overflow-hidden rounded-2xl border border-line p-6 sm:p-8">
+      <section className="hero-wash relative overflow-hidden rounded-2xl border border-line p-5 sm:p-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           className="max-w-2xl"
         >
-          <p className="text-[13px] font-medium text-accent">{greeting()}, {PROFILE.name.split(' ')[0]}</p>
-          <h1 className="mt-1.5 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          <p className="text-[13px] font-medium text-accent">
+            {greeting()}, {PROFILE.name.split(' ')[0]}
+          </p>
+          <h1 className="mt-1.5 text-xl font-semibold tracking-tight text-ink sm:text-3xl">
             Your project vault
           </h1>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
             {stats.totalProjects > 0
-              ? `${stats.totalProjects} projects, ${stats.totalVideos} explanation videos and ${formatWatchTime(
-                  stats.totalWatchSeconds
-                )} of footage — all searchable in one place.`
+              ? `${stats.totalProjects} project${stats.totalProjects === 1 ? '' : 's'}, ${
+                  stats.totalVideos
+                } explanation video${stats.totalVideos === 1 ? '' : 's'}, all searchable in one place.`
               : 'Start by uploading your first project explanation video.'}
           </p>
 
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Button to="/upload" icon={FiPlus} size="sm">
-              Add project
-            </Button>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            {canWrite ? (
+              <Button to="/upload" icon={FiPlus} size="sm">
+                Add project
+              </Button>
+            ) : null}
             <Button to="/projects" variant="secondary" size="sm" iconRight={FiArrowRight}>
               Browse library
             </Button>
@@ -212,9 +185,12 @@ export default function Dashboard() {
         </motion.div>
 
         {stats.latestUpload ? (
-          <p className="mt-6 text-xs text-muted">
-            Latest upload:{' '}
-            <Link to={`/project/${stats.latestUpload.id}`} className="font-medium text-accent hover:underline">
+          <p className="mt-6 truncate text-xs text-muted">
+            Latest:{' '}
+            <Link
+              to={`/project/${stats.latestUpload.id}`}
+              className="font-medium text-accent hover:underline"
+            >
               {stats.latestUpload.title}
             </Link>{' '}
             · {formatRelativeTime(stats.latestUpload.createdAt)}
@@ -222,11 +198,11 @@ export default function Dashboard() {
         ) : null}
       </section>
 
-      {/* Statistics */}
+      {/* Statistics — 2 across on phones, 4 on desktop */}
       {loading ? (
-        <StatsSkeleton count={6} />
+        <StatsSkeleton count={4} />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {statCards.map((card, index) => (
             <StatisticsCard key={card.label} index={index} {...card} />
           ))}
@@ -236,7 +212,7 @@ export default function Dashboard() {
       {/* Featured */}
       {!loading ? <FeaturedProject project={featured} /> : null}
 
-      {/* Charts + recent + activity */}
+      {/* Breakdown + recent uploads */}
       {!loading && projects.length > 0 ? (
         <div className="grid gap-5 lg:grid-cols-3">
           <div className="lg:col-span-2">
@@ -259,38 +235,6 @@ export default function Dashboard() {
         </div>
       ) : null}
 
-      {!loading && projects.length > 0 ? (
-        <div className="grid gap-5 lg:grid-cols-3">
-          <div className="lg:col-span-1">
-            <ActivityTimeline items={activity} />
-          </div>
-
-          <div className="space-y-4 lg:col-span-2">
-            <div className="flex flex-col gap-3">
-              <SearchBar value={query} onChange={setQuery} />
-              <CategoryChips
-                categories={CATEGORIES}
-                value={category}
-                onChange={setCategory}
-                counts={categoryCounts}
-              />
-            </div>
-
-            {preview.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {preview.map((project, index) => (
-                  <VideoCard key={project.id} project={project} index={index} />
-                ))}
-              </div>
-            ) : (
-              <p className="rounded-xl border border-dashed border-line p-8 text-center text-sm text-muted">
-                No projects match that filter.
-              </p>
-            )}
-          </div>
-        </div>
-      ) : null}
-
       {/* Loading / empty */}
       {loading ? <ProjectGridSkeleton count={3} /> : null}
 
@@ -299,7 +243,7 @@ export default function Dashboard() {
           icon={FiUploadCloud}
           title="Your vault is empty"
           description="Upload your first project explanation video and it will show up here, fully searchable."
-          action={{ label: 'Upload a video', to: '/upload', icon: FiPlus }}
+          action={canWrite ? { label: 'Upload a video', to: '/upload', icon: FiPlus } : undefined}
           secondaryAction={{ label: 'About me', to: '/about' }}
         />
       ) : null}

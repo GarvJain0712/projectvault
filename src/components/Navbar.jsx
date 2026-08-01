@@ -33,19 +33,19 @@ export default function Navbar({ onOpenMenu, onOpenPalette }) {
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className="glass sticky top-0 z-20 border-b border-line"
     >
-      <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="flex h-16 items-center gap-2 px-3 sm:gap-3 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={onOpenMenu}
           aria-label="Open navigation menu"
-          className="-ml-1 rounded-lg p-2 text-muted transition hover:bg-ink/5 hover:text-ink lg:hidden"
+          className="-ml-1 shrink-0 rounded-lg p-2 text-muted transition hover:bg-ink/5 hover:text-ink lg:hidden"
         >
           <FiMenu className="text-xl" />
         </button>
 
-        <h1 className="truncate text-[15px] font-semibold text-ink">{title}</h1>
+        <h1 className="min-w-0 truncate text-[15px] font-semibold text-ink">{title}</h1>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
           {/* Command-palette trigger, doubles as a global search affordance */}
           <button
             type="button"
@@ -73,9 +73,15 @@ export default function Navbar({ onOpenMenu, onOpenPalette }) {
 
           {/* Adding is pointless while locked — the server would refuse it. */}
           {canWrite ? (
-            <Button size="sm" icon={FiPlus} onClick={() => navigate('/upload')} className="ml-1">
+            <Button
+              size="sm"
+              icon={FiPlus}
+              onClick={() => navigate('/upload')}
+              aria-label="New project"
+              className="ml-0.5 sm:ml-1"
+            >
+              {/* Icon only on phones — the label crowded everything else out */}
               <span className="hidden sm:inline">New Project</span>
-              <span className="sm:hidden">New</span>
             </Button>
           ) : null}
         </div>

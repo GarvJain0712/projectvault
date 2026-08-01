@@ -184,7 +184,7 @@ export default function ProjectCard({ project, view = 'grid', index = 0 }) {
         >
           <Link
             to={detailsPath}
-            className="relative aspect-video w-40 shrink-0 overflow-hidden rounded-xl sm:w-52"
+            className="relative aspect-video w-28 shrink-0 overflow-hidden rounded-xl xs:w-36 sm:w-52"
           >
             <Thumbnail
               project={project}
@@ -213,9 +213,12 @@ export default function ProjectCard({ project, view = 'grid', index = 0 }) {
             <div className="mt-auto flex flex-wrap items-center gap-2">
               <Badge tone="accent">{project.category}</Badge>
               <Badge className={DIFFICULTY_STYLES[project.difficulty]}>{project.difficulty}</Badge>
-              {techBadges(3)}
-              <div className="ml-auto">{meta}</div>
+              <div className="hidden sm:contents">{techBadges(3)}</div>
+              <div className="w-full sm:ml-auto sm:w-auto">{meta}</div>
             </div>
+
+            {/* Row actions move below the text on phones so nothing overflows */}
+            <div className="flex items-center gap-1 sm:hidden">{actions}</div>
           </div>
         </motion.article>
 

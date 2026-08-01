@@ -4,6 +4,14 @@ export default {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
+    screens: {
+      xs: '475px', // small phones — Tailwind has no xs by default
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       /**
        * Every colour below reads a CSS variable declared in src/styles/index.css.
