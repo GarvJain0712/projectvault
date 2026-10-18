@@ -6,6 +6,8 @@
   "description": "ProjectVault - a personal library of project explanation videos.",
   "scripts": {
     "dev": "vite",
+    "dev:web": "vite",
+    "dev:server": "npm run dev --prefix server",
     "build": "vite build",
     "preview": "vite preview"
   },

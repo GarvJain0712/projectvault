@@ -37,8 +37,10 @@ function NavItems({ onNavigate }) {
           onClick={onNavigate}
           className={({ isActive }) =>
             cx(
-              'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
-              isActive ? 'text-accent' : 'text-muted hover:bg-ink/5 hover:text-ink'
+              'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-150',
+              isActive
+                ? 'text-accent-ink translate-x-[-1px] translate-y-[-1px]'
+                : 'text-muted hover:bg-[#f9c00f]/15 hover:text-ink'
             )
           }
         >
@@ -48,7 +50,7 @@ function NavItems({ onNavigate }) {
               {isActive ? (
                 <motion.span
                   layoutId="sidebar-active"
-                  className="absolute inset-0 -z-10 rounded-xl bg-accent/10"
+                  className="absolute inset-0 -z-10 rounded-xl bg-accent border-2 border-line shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   transition={{ type: 'spring', stiffness: 420, damping: 34 }}
                 />
               ) : null}

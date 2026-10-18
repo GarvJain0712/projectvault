@@ -14,12 +14,12 @@ export default function StatisticsCard({
   index = 0,
 }) {
   const accents = {
-    accent: 'bg-accent/10 text-accent',
-    emerald: 'bg-emerald-500/10 text-emerald-500',
-    amber: 'bg-amber-500/10 text-amber-500',
-    rose: 'bg-rose-500/10 text-rose-500',
-    blue: 'bg-blue-500/10 text-blue-500',
-    violet: 'bg-violet-500/10 text-violet-500',
+    accent: 'bg-accent border border-ink text-accent-ink shadow-[1px_1px_0px_0px_rgb(var(--color-line))]',
+    emerald: 'bg-[#10b981] border border-ink text-white shadow-[1px_1px_0px_0px_rgb(var(--color-line))]',
+    amber: 'bg-[#f9c00f] border border-ink text-ink shadow-[1px_1px_0px_0px_rgb(var(--color-line))]',
+    rose: 'bg-[#f35c3e] border border-ink text-white shadow-[1px_1px_0px_0px_rgb(var(--color-line))]',
+    blue: 'bg-[#2f5cff] border border-ink text-white shadow-[1px_1px_0px_0px_rgb(var(--color-line))]',
+    violet: 'bg-violet-500 border border-ink text-white shadow-[1px_1px_0px_0px_rgb(var(--color-line))]',
   };
 
   return (

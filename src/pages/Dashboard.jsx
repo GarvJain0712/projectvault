@@ -71,9 +71,9 @@ function FeaturedProject({ project }) {
               <span className="text-4xl font-bold text-white/90">{initialsOf(project.title)}</span>
             </div>
           )}
-          <span className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-accent shadow-lift">
-              <FiPlay className="ml-1 text-2xl" />
+          <span className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f9c00f] text-black border-2 border-line shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-110">
+              <FiPlay className="ml-1 text-2xl fill-current" />
             </span>
           </span>
         </Link>

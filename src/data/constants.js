@@ -28,29 +28,26 @@ export const SORT_OPTIONS = [
   { value: 'mostViewed', label: 'Most Viewed' },
 ];
 
-/** Accent colours offered in Settings. Values are raw "R G B" triplets. */
 export const ACCENT_COLORS = [
-  { name: 'Indigo', value: '99 102 241' },
+  { name: 'Electric', value: '47 92 255' },
+  { name: 'Flare', value: '243 92 62' },
+  { name: 'Signal', value: '249 192 15' },
+  { name: 'Mint', value: '16 185 129' },
   { name: 'Violet', value: '139 92 246' },
-  { name: 'Blue', value: '59 130 246' },
-  { name: 'Emerald', value: '16 185 129' },
-  { name: 'Amber', value: '245 158 11' },
-  { name: 'Rose', value: '244 63 94' },
-  { name: 'Cyan', value: '6 182 212' },
-  { name: 'Slate', value: '100 116 139' },
+  { name: 'Ink', value: '26 25 23' },
 ];
 
 /** Tailwind classes for the difficulty pill, keyed by difficulty. */
 export const DIFFICULTY_STYLES = {
-  Beginner: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-  Intermediate: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
-  Advanced: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+  Beginner: 'bg-[#10b981] border border-ink text-white font-medium',
+  Intermediate: 'bg-[#f9c00f] border border-ink text-ink font-medium',
+  Advanced: 'bg-[#f35c3e] border border-ink text-white font-medium',
 };
 
 export const STATUS_STYLES = {
-  Planned: 'bg-slate-500/10 text-slate-600 dark:text-slate-300',
-  'In Progress': 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-  Completed: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  Planned: 'bg-neutral-400 border border-ink text-ink font-medium',
+  'In Progress': 'bg-[#2f5cff] border border-ink text-white font-medium',
+  Completed: 'bg-[#10b981] border border-ink text-white font-medium',
 };
 
 /** localStorage keys — centralised so they never drift apart. */

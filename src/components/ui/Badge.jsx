@@ -3,9 +3,9 @@ import { cx } from '@/utils/helpers';
 /** Small rounded pill used for categories, technologies, tags and status. */
 export default function Badge({ children, className, tone = 'neutral', ...rest }) {
   const tones = {
-    neutral: 'bg-ink/5 text-muted dark:bg-white/5',
-    accent: 'bg-accent/10 text-accent',
-    outline: 'border border-line text-muted',
+    neutral: 'bg-surface border border-line text-ink',
+    accent: 'bg-accent border border-line text-accent-ink',
+    outline: 'border-2 border-line text-ink font-semibold',
   };
 
   return (

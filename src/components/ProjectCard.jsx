@@ -56,9 +56,14 @@ function Thumbnail({ project, className }) {
 /** Small circular icon button used for favourite / watch-later / edit / delete. */
 function IconAction({ label, icon: Icon, active, tone = 'default', onClick }) {
   const tones = {
-    default: active ? 'text-accent bg-accent/10' : 'text-muted hover:text-ink hover:bg-ink/5',
-    rose: active ? 'text-rose-500 bg-rose-500/10' : 'text-muted hover:text-rose-500 hover:bg-rose-500/10',
-    danger: 'text-muted hover:text-rose-500 hover:bg-rose-500/10',
+    default: active
+      ? 'bg-accent text-accent-ink border-2 border-line shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
+      : 'bg-surface text-ink border-2 border-line shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:bg-[#f9c00f] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]',
+    rose: active
+      ? 'bg-[#f35c3e] text-white border-2 border-line shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
+      : 'bg-surface text-ink border-2 border-line shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:bg-[#f35c3e] hover:text-white hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]',
+    danger:
+      'bg-surface text-ink border-2 border-line shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:bg-[#f35c3e] hover:text-white hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]',
   };
 
   return (
@@ -73,7 +78,7 @@ function IconAction({ label, icon: Icon, active, tone = 'default', onClick }) {
         aria-label={label}
         aria-pressed={active}
         className={cx(
-          'flex h-8 w-8 items-center justify-center rounded-lg transition',
+          'flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-150',
           tones[tone]
         )}
       >
@@ -190,8 +195,10 @@ export default function ProjectCard({ project, view = 'grid', index = 0 }) {
               project={project}
               className="transition-transform duration-500 group-hover:scale-105"
             />
-            <span className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 transition-opacity group-hover:opacity-100">
-              <FiPlay className="text-2xl text-white" />
+            <span className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f9c00f] text-black border-2 border-line shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-105">
+                <FiPlay className="ml-0.5 text-lg fill-current" />
+              </span>
             </span>
           </Link>
 
@@ -251,9 +258,9 @@ export default function ProjectCard({ project, view = 'grid', index = 0 }) {
           />
 
           {/* Play overlay */}
-          <span className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-accent shadow-lift backdrop-blur">
-              <FiPlay className="ml-0.5 text-xl" />
+          <span className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#f9c00f] text-black border-2 border-line shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-110">
+              <FiPlay className="ml-0.5 text-xl fill-current" />
             </span>
           </span>
 

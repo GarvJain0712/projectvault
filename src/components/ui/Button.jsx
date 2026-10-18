@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { cx } from '@/utils/helpers';
 
 const VARIANTS = {
-  primary: 'bg-accent text-accent-ink hover:brightness-110 shadow-soft',
-  secondary: 'bg-surface text-ink border border-line hover:bg-elevated hover:border-muted/40',
-  ghost: 'text-muted hover:text-ink hover:bg-ink/5',
-  subtle: 'bg-accent/10 text-accent hover:bg-accent/15',
-  danger: 'bg-rose-500 text-white hover:bg-rose-600 shadow-soft',
-  'danger-ghost': 'text-rose-500 hover:bg-rose-500/10',
+  primary: 'bg-accent text-accent-ink border-2 border-line shadow-[2px_2px_0px_0px_rgb(var(--color-line))] hover:shadow-[4px_4px_0px_0px_rgb(var(--color-line))]',
+  secondary: 'bg-surface text-ink border-2 border-line shadow-[2px_2px_0px_0px_rgb(var(--color-line))] hover:shadow-[4px_4px_0px_0px_rgb(var(--color-line))] hover:bg-elevated',
+  ghost: 'text-muted hover:text-ink hover:bg-ink/5 border-2 border-transparent',
+  subtle: 'bg-accent/10 text-accent border-2 border-accent/20 hover:bg-accent/15',
+  danger: 'bg-rose-500 text-white border-2 border-line shadow-[2px_2px_0px_0px_rgb(var(--color-line))] hover:shadow-[4px_4px_0px_0px_rgb(var(--color-line))]',
+  'danger-ghost': 'text-rose-500 hover:bg-rose-500/10 border-2 border-transparent',
 };
 
 const SIZES = {
@@ -57,9 +57,9 @@ const Button = forwardRef(function Button(
   );
 
   const motionProps = {
-    whileHover: disabled ? undefined : { y: -1 },
-    whileTap: disabled ? undefined : { scale: 0.97 },
-    transition: { type: 'spring', stiffness: 500, damping: 30 },
+    whileHover: disabled ? undefined : { x: -2, y: -2 },
+    whileTap: disabled ? undefined : { x: 1, y: 1 },
+    transition: { type: 'spring', stiffness: 600, damping: 25 },
   };
 
   if (to) {
