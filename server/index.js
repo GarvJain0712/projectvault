@@ -95,6 +95,24 @@ async function start() {
     console.log(`  ➜  storage: ${isCloudinaryActive() ? 'Cloudinary' : 'local disk (./uploads)'}`);
     console.log(`  ➜  writes: ${isWriteProtected() ? 'key required' : 'OPEN (no ADMIN_KEY set)'}`);
     console.log(`  ➜  allowed origins: ${allowedOrigins.join(', ')}\n`);
+
+    // Keep Render's free tier alive by self-pinging every 14 minutes.
+    // Render spins down free services after 15 min of inactivity.
+    const SELF_URL = process.env.PUBLIC_URL
+      ? process.env.PUBLIC_URL.replace('/api', '') + '/api/health'
+      : null;
+
+    if (SELF_URL && process.env.NODE_ENV !== 'development') {
+      setInterval(async () => {
+        try {
+          await fetch(SELF_URL);
+          console.log('[keep-alive] pinged', SELF_URL);
+        } catch (e) {
+          console.warn('[keep-alive] ping failed:', e.message);
+        }
+      }, 14 * 60 * 1000); // every 14 minutes
+      console.log(`  ➜  keep-alive: pinging ${SELF_URL} every 14 min\n`);
+    }
   });
 }
 
